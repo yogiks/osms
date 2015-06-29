@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OSM Sanchaya</title>
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.0/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.0/mapbox.css' rel='stylesheet' />
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:25%; bottom:25%; width:60%; height:40%; }
+</style>
+</head>
+<body>
+<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-osm/v0.1.0/leaflet-osm.js'></script>
+<script src='https://code.jquery.com/jquery-1.11.0.min.js'></script>
+<div id='map'></div>
+<script>
+
+L.mapbox.accessToken = 'pk.eyJ1Ijoib3BlbnN0cmVldG1hcCIsImEiOiJhNVlHd29ZIn0.ti6wATGDWOmCnCYen-Ip7Q';
+var map = L.mapbox.map('map', 'openstreetmap.1b68f018', {maxZoom:14});
+
+
+L.control.layers({
+    'OSM English': L.mapbox.tileLayer('openstreetmap.1b68f018').addTo(map),
+    'ಒಎಸ್ಎಂ ಕನ್ನಡ': L.mapbox.tileLayer('yogiks.f4c44375')}).addTo(map);
+
+$.ajax({
+    url: "https://www.openstreetmap.org/api/0.6/node/2522853564",
+    dataType: "xml",
+  success: function (xml) {
+    var layer = new L.OSM.DataLayer(xml).addTo(map).bindPopup();
+    map.fitBounds(layer.getBounds());
+}
+});
+</script>
+</body>
+</html>
